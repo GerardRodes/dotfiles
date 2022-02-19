@@ -1,0 +1,121 @@
+# [bandwidth]
+# min_width= 1000kb
+# command=i3blocks/blocks/bandwidth
+# instance=enp34s0;in
+# interval=1
+# color=#333333
+# align=right
+
+# [bandwidth]
+# min_width= 1000kb
+# command=i3blocks/blocks/bandwidth
+# instance=enp34s0;out
+# interval=1
+# color=#333333
+# align=right
+
+# [ping]
+# min_width=1000ms
+# interval=persist
+# align=right
+# command=ping $(nmcli dev show | grep DNS | head -n1 | awk '{print $2}') | while read row; do echo "$row" | awk -F "=" '{print $4}' | sed -E 's/(\.[0-9]+)//' | sed -E 's/\sms/ms/' ; done
+# color=#333333
+
+[mediaplayer]
+command=i3blocks-contrib/mediaplayer/mediaplayer
+instance=spotify
+interval=5
+signal=10
+separator=false
+
+[volume]
+command=echo "♪ $(i3blocks-contrib/volume/volume)"
+interval=once
+signal=10
+#STEP=5%
+#MIXER=[determined automatically]
+#SCONTROL=[determined automatically]
+#NATURAL_MAPPING=0
+
+[bluetooth]
+command=./bluetooth
+full_text=
+
+[cpu]
+#REFRESH_TIME=1
+WARN_PERCENT=50
+CRIT_PERCENT=80
+LABEL=
+DECIMALS=0
+min_width=100%
+align=right
+command=i3blocks-contrib/cpu_usage2/cpu_usage2
+interval=persist
+markup=pango
+separator=false
+
+[temperature]
+command=i3blocks-contrib/temperature/temperature
+label=
+interval=5
+T_WARN=70
+T_CRIT=90
+SENSOR_CHIP="k10temp-pci-00c3"
+
+[memory]
+command=i3blocks-contrib/memory/memory
+min_width=100%
+align=right
+label=
+interval=5
+
+[disk usage /]
+command=df -h -P / | awk 'FNR > 1 {print $6,$5}'
+interval=1
+separator=false
+
+[disk usage /var]
+command=df -h -P /var | awk 'FNR > 1 {print $6,$5}'
+interval=1
+separator=false
+
+[disk usage /home]
+command=df -h -P /home | awk 'FNR > 1 {print $6,$5}'
+interval=1
+
+[key_layout]
+command=i3blocks-contrib/key_layout/key_layout
+interval=once
+signal=11
+
+[iface]
+command=i3blocks-contrib/iface/iface
+#LABEL=wlan0:
+#IFACE=wlan0
+#ADDRESS_FAMILY=inet6?
+color=#83AF40
+interval=5
+
+[nm-vpn]
+#init_color=#FFFF00
+on_color=#83AF40
+command=i3blocks-contrib/nm-vpn/nm-vpn
+label=
+interval=5
+
+[weather]
+instance=6533961
+command=i3blocks/blocks/weather
+interval=60
+
+[local time]
+command=LC_TIME=en_US.UTF-8 date "+%A %d/%m/%Y %0H:%0M:%0S"
+interval=1
+
+[calendar]
+command=./calendar
+full_text=📆
+
+[utc time]
+command=date --utc "+%0H:%0M"
+interval=1

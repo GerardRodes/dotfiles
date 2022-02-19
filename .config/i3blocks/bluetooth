@@ -1,0 +1,65 @@
+#!/usr/bin/env bash
+
+if [ -n "$button" ]; then
+   echo "connect 38:18:4C:D3:51:9E" | bluetoothctl &> /dev/null
+fi
+
+get_from_file() {
+   dev=$1
+   name=
+   if [ ! -f /tmp/bt-devices.txt ]; then
+      touch /tmp/bt-devices.txt
+      echo ""
+      return
+   fi
+   for i in `cat /tmp/bt-devices.txt`; do
+      d=`echo $i | awk -F:: '{print $1}'`
+      if [ $d = $dev ]; then
+         name=`echo $i | awk -F:: '{print $2}'`
+      fi
+   done
+   echo "${name}"
+}
+
+store_file() {
+   dev=$1
+   name="${2}"
+   echo "$dev::${name}" >> /tmp/bt-devices.txt
+}
+
+connections=`hcitool con | sed -n 2p`
+if [ ! -z "$connections" ]; then
+   # We have a connection, we want to get the name from a file if we've had
+   # it from there before because getting the name of the device connected
+   # is very slow and costly.
+   dev=`echo $connections | awk '{print $3}'`
+   name=`get_from_file $dev`
+   if [ -z "$name" ]; then
+      name=`hcitool name $dev | awk '{print $1}'`
+      if [ ! -z "${name}" ]; then
+         store_file $dev "${name}"
+      fi
+   fi
+
+   battery=$(timeout 1 bash -c "bluetooth_battery $dev | rev | cut -d\s -f1 | rev | xargs")
+   if [[ ! $battery =~ ^[0-9]+%$ ]]; then
+      battery=""
+   else
+      battery=" $battery"
+   fi
+
+
+   echo " $name$battery"
+   echo " $name$battery"
+
+   raw_battery=$(echo ${battery:0:-1})
+   if [ "$raw_battery" <= 20 ]; then
+      echo "#FFA50000\n"
+   else
+      echo "#83AF4000\n"
+   fi
+else
+   echo ""
+   echo ""
+   echo "#ff550000\n"
+fi

@@ -1,0 +1,2 @@
+systemctl --no-block --user start wallpaper
+setxkbmap -option compose:ralt

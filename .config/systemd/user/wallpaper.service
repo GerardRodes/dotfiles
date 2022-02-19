@@ -1,0 +1,14 @@
+[Unit]
+Description=Set random wallpaper
+
+[Service]
+Type=simple
+Environment=DISPLAY=:1
+ExecStart=/bin/bash -c '/usr/bin/feh --bg-fill "$(ls -d %h/Pictures/wallpapers/* | shuf -n 1)"'
+
+[Install]
+WantedBy=default.target
+WantedBy=graphical.target
+WantedBy=xorg.target
+
+

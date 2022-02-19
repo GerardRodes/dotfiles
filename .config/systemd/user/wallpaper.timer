@@ -1,0 +1,8 @@
+[Timer]
+Unit=wallpaper.service
+OnUnitActiveSec=1h
+
+[Install]
+WantedBy=default.target
+WantedBy=timers.target
+
