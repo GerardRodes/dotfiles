@@ -1,0 +1,7 @@
+[Unit]
+Description=Set random wallpaper
+PartOf=graphical-session.target
+
+[Service]
+Environment=DISPLAY=:0
+ExecStart=/bin/bash -c '/usr/bin/feh --bg-fill "$(ls -d %h/Pictures/wallpapers/* | shuf -n 1)"'

@@ -1,0 +1,43 @@
+[gpg]
+	program = gpg2
+
+[commit]
+	gpgsign = true
+
+[user]
+	name = Gerard Rodes
+
+[includeIf "gitdir:~/dev/fun/"]
+  path = ~/dev/fun/.gitconfig
+
+[includeIf "gitdir:~/dev/beat/"]
+  path = ~/dev/beat/.gitconfig
+
+[color]
+	ui = true
+
+[push]
+	default = current
+	followTags = true
+
+[core]
+	autocrlf = false
+
+[pull]
+	rebase = true
+
+[rerere]
+	enabled = true
+
+[diff]
+	tool = difft
+	external = difft
+
+[difftool "difftastic"]
+	cmd = difft "$LOCAL" "$REMOTE"
+
+[pager]
+	difftool = true
+
+[url "ssh://git@github.com/"]
+	insteadOf = https://github.com/
